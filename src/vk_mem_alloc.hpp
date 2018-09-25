@@ -1,7 +1,7 @@
 #ifndef AMD_VULKAN_MEMORY_ALLOCATOR_HPP
 #define AMD_VULKAN_MEMORY_ALLOCATOR_HPP
 
-#include <vk_mem_alloc.h>
+#include "vk_mem_alloc.h"
 #include <vulkan/vulkan.hpp>
 #include <array>
 
@@ -531,8 +531,8 @@ namespace AMD_VULKAN_MEMORY_ALLOCATOR_HPP_NAMESPACE
     // TODO Add constructors, operators and setters
     struct Stats
     {
-        std::array<StatInfo, VK_MAX_MEMORY_TYPES> memoryType = {0};
-        std::array<StatInfo, VK_MAX_MEMORY_HEAPS> memoryHeap = {0};
+        std::array<StatInfo, VK_MAX_MEMORY_TYPES> memoryType = {};
+        std::array<StatInfo, VK_MAX_MEMORY_HEAPS> memoryHeap = {};
         StatInfo total;
     };
     static_assert( sizeof( Stats ) == sizeof( VmaStats ), "struct and wrapper have different size!" );
@@ -578,7 +578,7 @@ namespace AMD_VULKAN_MEMORY_ALLOCATOR_HPP_NAMESPACE
     struct AllocationInfo
     {
         uint32_t memoryType = 0;
-        VULKAN_HPP_NAMESPACE::DeviceMemory deviceMemory = VK_NULL_HANDLE;
+        VULKAN_HPP_NAMESPACE::DeviceMemory deviceMemory = nullptr;
         DeviceSize offset = 0;
         DeviceSize size = 0;
         void* pMappedData = nullptr;

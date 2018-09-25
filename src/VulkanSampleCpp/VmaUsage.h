@@ -7,9 +7,6 @@
 #define WIN32_LEAN_AND_MEAN
 #include <Windows.h>
 
-#define VK_USE_PLATFORM_WIN32_KHR
-#include <vulkan/vulkan.h>
-
 /*
 In every place where you want to use Vulkan Memory Allocator, define appropriate
 macros if you want to configure the library and then include its header to
@@ -30,7 +27,9 @@ include all public interface declarations. Example:
 #pragma warning(disable: 4100) // unreferenced formal parameter
 #pragma warning(disable: 4189) // local variable is initialized but not referenced
 
-#include "vk_mem_alloc.h"
+#define VK_USE_PLATFORM_WIN32_KHR
+//#include "../vk_mem_alloc.hpp" // TODO
+#include "../vk_mem_alloc.h"
 
 #pragma warning(pop)
 

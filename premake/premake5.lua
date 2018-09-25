@@ -97,3 +97,41 @@ buildoptions { "/MDd" }
 
 filter { "configurations:Release", "platforms:Windows-x64" }
 buildoptions { "/MD" }
+
+
+project "VulkanSampleCpp"
+kind "ConsoleApp"
+language "C++"
+location "../build"
+filename ("VulkanSampleCpp_" .. _SUFFIX)
+targetdir "../bin"
+objdir "../build/Desktop_%{_SUFFIX}/%{cfg.platform}/%{cfg.buildcfg}"
+floatingpoint "Fast"
+files { "../src/VulkanSampleCpp/*.h", "../src/VulkanSampleCpp/*.cpp", "../src/vk_mem_alloc.h*" }
+flags { "NoPCH", "FatalWarnings" }
+characterset "Default"
+
+filter "configurations:Debug"
+defines { "_DEBUG", "DEBUG" }
+flags { }
+targetsuffix ("_Debug_" .. _SUFFIX)
+
+filter "configurations:Release"
+defines { "NDEBUG" }
+optimize "On"
+flags { "LinkTimeOptimization" }
+targetsuffix ("_Release_" .. _SUFFIX)
+
+filter { "platforms:x64" }
+defines { "WIN32", "_CONSOLE", "PROFILE", "_WINDOWS", "_WIN32_WINNT=0x0601" }
+links { "vulkan-1" }
+
+filter { "platforms:Linux-x64" }
+buildoptions { "-std=c++0x" }
+links { "vulkan" }
+
+filter { "configurations:Debug", "platforms:x64" }
+buildoptions { "/MDd" }
+
+filter { "configurations:Release", "platforms:Windows-x64" }
+buildoptions { "/MD" }

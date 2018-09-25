@@ -1163,12 +1163,17 @@ static void InitializeApplication()
 
     VkInstanceCreateInfo instInfo = { VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO };
     instInfo.pApplicationInfo = &appInfo;
-    instInfo.enabledExtensionCount = static_cast<uint32_t>(instanceExtensions.size());
-    instInfo.ppEnabledExtensionNames = instanceExtensions.data();
     instInfo.enabledLayerCount = static_cast<uint32_t>(instanceLayers.size());
     instInfo.ppEnabledLayerNames = instanceLayers.data();
+    instInfo.enabledExtensionCount = static_cast<uint32_t>(instanceExtensions.size());
+    instInfo.ppEnabledExtensionNames = instanceExtensions.data();
 
     ERR_GUARD_VULKAN( vkCreateInstance(&instInfo, NULL, &g_hVulkanInstance) );
+
+    if(g_EnableValidationLayer == true)
+    {
+        RegisterDebugCallbacks();
+    }
 
     // Create VkSurfaceKHR.
     VkWin32SurfaceCreateInfoKHR surfaceInfo = { VK_STRUCTURE_TYPE_WIN32_SURFACE_CREATE_INFO_KHR };
@@ -1176,9 +1181,6 @@ static void InitializeApplication()
     surfaceInfo.hwnd = g_hWnd;
     VkResult result = vkCreateWin32SurfaceKHR(g_hVulkanInstance, &surfaceInfo, NULL, &g_hSurface);
     assert(result == VK_SUCCESS);
-
-    if(g_EnableValidationLayer == true)
-        RegisterDebugCallbacks();
 
     // Find physical device
 
@@ -1733,7 +1735,7 @@ int main()
     WNDCLASSEX wndClassDesc = { sizeof(WNDCLASSEX) };
     wndClassDesc.style = CS_VREDRAW | CS_HREDRAW | CS_DBLCLKS;
     wndClassDesc.hbrBackground = NULL;
-    wndClassDesc.hCursor = LoadCursor(NULL, IDC_CROSS);
+    wndClassDesc.hCursor = LoadCursor(NULL, IDC_ARROW);
     wndClassDesc.hIcon = LoadIcon(NULL, IDI_APPLICATION);
     wndClassDesc.hInstance = g_hAppInstance;
     wndClassDesc.lpfnWndProc = WndProc;
